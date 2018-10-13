@@ -28,8 +28,10 @@ class SearchView extends React.PureComponent {
         value={ searchValue }
         placeholder={ placeholderValue }
         onChangeText={ onSearchValueChange }
+        onClearText={ onSearchValueChange }
         onEndEditing={ onSearch }
         showLoadingIcon={ loading }
+        clearIcon={{ color: '#86939e', name: 'clear' }}
       />
     );
   };
@@ -71,7 +73,9 @@ class SearchView extends React.PureComponent {
 
   render() {
     return (
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps={ 'handled' }
+      >
         { this.renderSearchBar() }
         { this.renderResultList() }
       </KeyboardAwareScrollView>

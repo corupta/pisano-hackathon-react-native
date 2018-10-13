@@ -11,7 +11,7 @@ const placeholderExamples = [
   'öğrenci belgesi',
   'pasaport',
   'tc kimlik kartı'
-];
+].map((str) => `${str}  `);
 
 const placeholderAnimationSpeed = 120; // ms duration to insert/remove one letter
 const searchAfterInactiveDuration = 200; // ms duration to wait for user to type more before searching
@@ -110,7 +110,7 @@ class Search extends React.PureComponent {
     setTimeout(this.maybeSearch, searchAfterInactiveDuration, searchValue);
   };
 
-  handleSearchValueChange = (value) => {
+  handleSearchValueChange = (value = '') => {
     this.setState({
       searchValue: value
     }, this.afterSearchValueChange(value));

@@ -4,9 +4,9 @@ import Search from './Search';
 import Document from './Document';
 
 export default createStackNavigator({
-  Search: {
+  /* Search: {
     screen: Search
-  },
+  },*/
   Document: {
     screen: Document
   }
