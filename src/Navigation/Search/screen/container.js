@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Searcher } from '../../../Utils';
 
 import SearchView from './view';
 
@@ -14,13 +14,36 @@ const placeholderExamples = [
 ];
 
 const placeholderAnimationSpeed = 120; // ms duration to insert/remove one letter
+const searchAfterInactiveDuration = 200; // ms duration to wait for user to type more before searching
+
+const resultData = [
+  {
+    _id: '5bc1f8e618a5d0400a780522',
+    name: 'Foto'
+  },
+  {
+    _id: '5bc1f8e618a5d0400a780521',
+    name: 'Nüfus Cüzdanı'
+  },
+  {
+    _id: '5bc1f8e618a5d0400a780520',
+    name: 'Passport'
+  }
+];
 
 class Search extends React.PureComponent {
   static navigationOptions = {
     title: 'Arama'
   };
+  constructor(props) {
+    super(props);
+    this.searcher = new Searcher(['name']);
+  }
+
   state = {
+    loading: false,
     searchValue: '',
+    searchResults: [],
     placeholder: {
       value: '',
       id: 0,
@@ -29,6 +52,7 @@ class Search extends React.PureComponent {
   };
 
   componentDidMount() {
+    this.searcher.updateList(resultData);
     this.maybeRecallCyclePlaceholder();
   }
 
@@ -59,10 +83,37 @@ class Search extends React.PureComponent {
     }
   };
 
+  loadResults = async() => {
+    const { searchValue } = this.state;
+    const searchResults = await this.searcher.search(searchValue);
+    this.setState({
+      loading: false,
+      searchResults
+    });
+  };
+
+  handleSearch = () => {
+    this.setState({
+      loading: true
+    }, this.loadResults);
+  };
+
+  maybeSearch = (searchValue) => {
+    console.log('maybe search', this.state.searchValue, ',', searchValue);
+    if (this.state.searchValue === searchValue) {
+      this.handleSearch();
+    }
+  };
+
+  afterSearchValueChange = (searchValue) => () => {
+    this.maybeRecallCyclePlaceholder();
+    setTimeout(this.maybeSearch, searchAfterInactiveDuration, searchValue);
+  };
+
   handleSearchValueChange = (value) => {
     this.setState({
       searchValue: value
-    }, this.maybeRecallCyclePlaceholder);
+    }, this.afterSearchValueChange(value));
   };
 
   handleResultPress = (node) => {
@@ -75,14 +126,16 @@ class Search extends React.PureComponent {
   };
 
   render() {
-    const { searchValue, placeholder: { value: placeholderExample } } = this.state;
+    const { loading, searchValue, searchResults, placeholder: { value: placeholderExample } } = this.state;
     const placeholderValue = strings.placeholder(placeholderExample);
     return (
       <SearchView
+        results={ searchResults }
         searchValue={ searchValue }
         placeholderValue={ placeholderValue }
-        loading={ false }
+        loading={ loading }
         onSearchValueChange={ this.handleSearchValueChange }
+        onSearch={ this.handleSearch }
         onResultPress={ this.handleResultPress }
       />
     );

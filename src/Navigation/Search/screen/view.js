@@ -15,11 +15,12 @@ class SearchView extends React.PureComponent {
     placeholderValue: PropTypes.string.isRequired,
     loading: PropTypes.bool.isRequired,
     onSearchValueChange: PropTypes.func.isRequired,
-    onResultPress: PropTypes.func.isRequired
+    onResultPress: PropTypes.func.isRequired,
+    onSearch: PropTypes.func.isRequired
   };
 
   renderSearchBar = () => {
-    const { searchValue, placeholderValue, onSearchValueChange } = this.props;
+    const { searchValue, placeholderValue, loading, onSearchValueChange, onSearch } = this.props;
     return (
       <SearchBar
         autoFocus={ true }
@@ -27,6 +28,8 @@ class SearchView extends React.PureComponent {
         value={ searchValue }
         placeholder={ placeholderValue }
         onChangeText={ onSearchValueChange }
+        onEndEditing={ onSearch }
+        showLoadingIcon={ loading }
       />
     );
   };
