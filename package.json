@@ -1,5 +1,5 @@
 {
-  "name": "PisanoHackathonReactNative",
+  "name": "pisano-hackathon-react-native",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -7,10 +7,17 @@
     "test": "jest"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "mobx": "^5.5.0",
+    "mobx-react": "^5.2.8",
     "react": "16.6.0-alpha.8af6728",
-    "react-native": "0.57.3"
+    "react-native": "0.57.3",
+    "react-native-elements": "^0.19.1",
+    "react-native-keyboard-aware-scrollview": "^2.0.0",
+    "react-navigation": "^2.18.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.1.2",
     "babel-jest": "23.6.0",
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.48.1",

@@ -5,6 +5,7 @@
 
 #style
 .eslintrc.js
+.eslintignore
 
 # OSX
 #
