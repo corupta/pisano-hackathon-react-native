@@ -6,23 +6,32 @@ import { List, ListItem, SearchBar } from 'react-native-elements';
 import { View, Text } from 'react-native';
 
 class SearchView extends React.PureComponent {
-  static navigationOptions = {
-    title: 'Arama'
-  };
   static propTypes = {
     results: PropTypes.arrayOf(PropTypes.shape({
       _id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
     })),
-    loading: PropTypes.bool,
+    searchValue: PropTypes.string.isRequired,
+    placeholderValue: PropTypes.string.isRequired,
+    loading: PropTypes.bool.isRequired,
+    onSearchValueChange: PropTypes.func.isRequired,
     onResultPress: PropTypes.func.isRequired
   };
 
   renderSearchBar = () => {
+    const { searchValue, placeholderValue, onSearchValueChange } = this.props;
     return (
-      <SearchBar />
+      <SearchBar
+        autoFocus={ true }
+        lightTheme={ true }
+        value={ searchValue }
+        placeholder={ placeholderValue }
+        onChangeText={ onSearchValueChange }
+      />
     );
   };
+
+  handleSearchValueChange = (e) => this.props.onSearchValueChange(e.target.value);
 
   handlePressResult = (node) => {
     if (!this.handler) {
