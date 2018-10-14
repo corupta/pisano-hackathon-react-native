@@ -21,8 +21,7 @@
     "react-navigation": "^2.18.0",
     "react-redux": "^5.0.7",
     "redux": "^4.0.1",
-    "redux-saga": "^0.16.2",
-    "remote-redux-devtools": "^0.5.13"
+    "redux-saga": "^0.16.2"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.1.2",

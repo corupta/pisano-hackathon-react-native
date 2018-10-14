@@ -1,6 +1,6 @@
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
 
-import Welcome from './Welcome';
+import Welcome from './Welcome/screen/index';
 import Search from './Search';
 import Document from './Document';
 

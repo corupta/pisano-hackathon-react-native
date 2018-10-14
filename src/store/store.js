@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 // import { createLogger } from 'redux-logger';
-import { composeWithDevTools } from 'remote-redux-devtools';
+// import { composeWithDevTools } from 'remote-redux-devtools';
 import createSagaMiddleware from 'redux-saga';
 
 import { rootReducer } from './reducer';
@@ -38,16 +38,16 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   middlewares.push(addLoggingToDispatch);
 }
 
-let composeEnhancers;
+const composeEnhancers = compose;
 
-if (window.remoteDebug) {
+/* if (window.remoteDebug) {
   // middlewares.push(addLoggingToDispatch);
   console.log('redux dev enabled');
   composeEnhancers = composeWithDevTools({ realtime: true });
 } else {
   console.log('redux dev not enabled');
   composeEnhancers = compose;
-}
+} */
 
 export const configureStore = (initialState) =>
   createStore(rootReducer, initialState, composeEnhancers(applyMiddleware(...middlewares)));

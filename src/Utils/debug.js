@@ -6,3 +6,4 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 } else {
   console.debug = (...params) => params[params.length - 1];
 }
+console.disableYellowBox = true;
