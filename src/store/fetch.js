@@ -3,7 +3,7 @@ const { FETCHES } = Types;
 
 const URL = 'https://exibyte-paperwork.herokuapp.com/api';
 
-const myFetch = (path, method, body = {}, headers = {}, url = URL) =>
+const myFetch = (path, method, body, headers = {}, url = URL) =>
   fetch(`${url}${path}`, {
     method, headers: {
       // applicationcontext: 'analytics',
@@ -11,15 +11,15 @@ const myFetch = (path, method, body = {}, headers = {}, url = URL) =>
       'Content-Type': 'application/json',
       ...headers
     },
-    body: JSON.stringify(body)
+    body
   });
 
-const toArgs = (path, method, body, headers = {}) => {
+const toArgs = (path, method, body = {}, headers = {}) => {
   switch (method) {
     case 'GET':
       return { path: `${path}`, method, headers };
     default:
-      return { path, method, body, headers };
+      return { path, method, body: JSON.stringify(body), headers };
   }
 };
 
@@ -65,8 +65,8 @@ const handleError = ({ status, statusText }) => {
 export const fetchData = async(fetchType, data, browserToken, userToken) => {
   const rawResponse = await handleFetch(fetchType, data, browserToken, userToken);
   console.debug('rawResponse', rawResponse);
+  handleError(rawResponse);
   const response = rawResponse.json ? await rawResponse.json() : rawResponse;
-  handleError(response);
   console.debug('response', response);
   return response;
 };

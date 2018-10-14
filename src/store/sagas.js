@@ -1,7 +1,8 @@
-import { call, put, all, take, fork, cancel, select, delay } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
+import { call, put, all, take, fork, cancel, select } from 'redux-saga/effects';
 import { Types } from '../Utils';
 import { fetchData } from './fetch';
-import { selectDocumentSearcher } from './DocumentIndexes/reducer';
+import { selectDocumentSearcher } from './DocumentIndices/reducer';
 
 const { ACTIONS } = Types;
 
@@ -15,7 +16,7 @@ function *fetchSearchResults(action) {
   const request = action.payload || {};
   const searcher = yield select(selectDocumentSearcher);
   try {
-    const data = yield call(searcher.search, action.payload);
+    const data = yield call([searcher, 'search'], action.payload);
     // add fake delay
     yield call(delay, searchFakeDelayDuration);
     yield put({ type: ACTIONS.FETCH_SUCCESS, fetchType: action.fetchType, payload: data, request });

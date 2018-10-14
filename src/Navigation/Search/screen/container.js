@@ -1,5 +1,14 @@
 import React from 'react';
-import { Searcher } from '../../../Utils';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import {
+  selectDocumentSearchResults,
+  selectDocumentSearcherLoading,
+  selectDocumentSearcherReady
+} from '../../../store/DocumentIndices/reducer';
+import * as DocumentIndicesActions from '../../../store/DocumentIndices/action';
+
 
 import SearchView from './view';
 
@@ -16,34 +25,23 @@ const placeholderExamples = [
 const placeholderAnimationSpeed = 120; // ms duration to insert/remove one letter
 const searchAfterInactiveDuration = 200; // ms duration to wait for user to type more before searching
 
-const resultData = [
-  {
-    _id: '5bc1f8e618a5d0400a780522',
-    name: 'Foto'
-  },
-  {
-    _id: '5bc1f8e618a5d0400a780521',
-    name: 'Nüfus Cüzdanı'
-  },
-  {
-    _id: '5bc1f8e618a5d0400a780520',
-    name: 'Passport'
-  }
-];
-
 class Search extends React.PureComponent {
   static navigationOptions = {
     title: 'Arama'
   };
-  constructor(props) {
-    super(props);
-    this.searcher = new Searcher(['name']);
-  }
+  static propTypes = {
+    results: PropTypes.arrayOf(PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired
+    }).isRequired).isRequired,
+    loading: PropTypes.bool.isRequired,
+    ready: PropTypes.bool.isRequired,
+    search: PropTypes.func.isRequired,
+    getSearcherData: PropTypes.func.isRequired
+  };
 
   state = {
-    loading: false,
     searchValue: '',
-    searchResults: [],
     placeholder: {
       value: '',
       id: 0,
@@ -52,9 +50,20 @@ class Search extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.searcher.updateList(resultData);
     this.maybeRecallCyclePlaceholder();
+    this.maybeFetchSearcherData();
   }
+
+  componentDidUpdate() {
+    this.maybeFetchSearcherData();
+  }
+
+  maybeFetchSearcherData = () => {
+    const { ready, getSearcherData } = this.props;
+    if (!ready) {
+      getSearcherData();
+    }
+  };
 
   cyclePlaceholder = () => {
     const { placeholder } = this.state;
@@ -83,23 +92,13 @@ class Search extends React.PureComponent {
     }
   };
 
-  loadResults = async() => {
-    const { searchValue } = this.state;
-    const searchResults = await this.searcher.search(searchValue);
-    this.setState({
-      loading: false,
-      searchResults
-    });
-  };
-
   handleSearch = () => {
-    this.setState({
-      loading: true
-    }, this.loadResults);
+    const { search } = this.props;
+    const { searchValue } = this.state;
+    search({ param: searchValue });
   };
 
   maybeSearch = (searchValue) => {
-    console.log('maybe search', this.state.searchValue, ',', searchValue);
     if (this.state.searchValue === searchValue) {
       this.handleSearch();
     }
@@ -126,11 +125,12 @@ class Search extends React.PureComponent {
   };
 
   render() {
-    const { loading, searchValue, searchResults, placeholder: { value: placeholderExample } } = this.state;
+    const { loading, results } = this.props;
+    const { searchValue, placeholder: { value: placeholderExample } } = this.state;
     const placeholderValue = strings.placeholder(placeholderExample);
     return (
       <SearchView
-        results={ searchResults }
+        results={ results }
         searchValue={ searchValue }
         placeholderValue={ placeholderValue }
         loading={ loading }
@@ -142,4 +142,15 @@ class Search extends React.PureComponent {
   }
 }
 
-export default Search;
+const mapStateToProps = (state) => ({
+  results: selectDocumentSearchResults(state),
+  loading: selectDocumentSearcherLoading(state),
+  ready: selectDocumentSearcherReady(state)
+});
+
+const mapDispatchToProps = {
+  search: DocumentIndicesActions.searchIndex,
+  getSearcherData: DocumentIndicesActions.getDocumentIndex
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

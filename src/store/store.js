@@ -34,15 +34,18 @@ const middlewares = [sagaMiddleware];
 window.remoteDebug = Boolean(navigator.platform);
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  process.env.NODE_ENV = 'development';
   middlewares.push(addLoggingToDispatch);
 }
 
 let composeEnhancers;
 
-if (__DEV__ && window.remoteDebug) {
+if (window.remoteDebug) {
   // middlewares.push(addLoggingToDispatch);
+  console.log('redux dev enabled');
   composeEnhancers = composeWithDevTools({ realtime: true });
 } else {
+  console.log('redux dev not enabled');
   composeEnhancers = compose;
 }
 

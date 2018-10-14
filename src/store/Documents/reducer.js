@@ -9,10 +9,10 @@ export const documentReducer = (state = {}, action) => {
       case Types.FETCHES.DOCUMENT_GET:
         return {
           ...state,
-          ...payload.reduce(document.reduce((acc, document) => ({
+          ...payload.reduce((acc, document) => ({
             ...acc,
             [document._id]: document
-          }), {}))
+          }), {})
         };
       case Types.FETCHES.COMMENT_ADD:
         return {
@@ -27,7 +27,8 @@ export const documentReducer = (state = {}, action) => {
   return state;
 };
 
-export const selectDocumentById = (state, documentId) => selectDocuments(state)[documentId] || [];
+export const selectDocumentById = (state, documentId, defaultReturn = []) =>
+  selectDocuments(state)[documentId] || defaultReturn;
 export const selectSubDocumentsByDocument = (state, documentId) =>
-  selectDependenciesByDocument(documentId)
+  selectDependenciesByDocument(state, documentId)
     .map((subdocumentId) => selectDocumentById(state, subdocumentId));

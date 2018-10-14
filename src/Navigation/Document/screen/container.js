@@ -1,52 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import DocumentView from './view';
-
-const documentData = {
-  rootDocument: {
-    dependencies: ['5bc1f8e618a5d0400a780521', '5bc1f8e618a5d0400a780522'],
-    hints: [
-      'Hint 1',
-      'Hint 2',
-      'Hint 3'
-    ],
-    _id: '5bc1f8e618a5d0400a780520',
-    name: 'Passport',
-    nodeType: 'document',
-    description: 'Description',
-    institution: { name: 'a', description: 'b' },
-    __v: 0
-  },
-  documents: [
-    {
-      dependencies: ['5bc1f8e618a5d0400a780522'],
-      hints: [
-        'Hint 1',
-        'Hint 2',
-        'Hint 3'
-      ],
-      _id: '5bc1f8e618a5d0400a780521',
-      name: 'Nüfus Cüzdanı',
-      nodeType: 'document',
-      description: 'Description',
-      institution: { name: 'a', description: 'b' },
-      __v: 0
-    },
-    {
-      dependencies: [],
-      hints: [
-        'Hint 1',
-        'Hint 2',
-        'Hint 3'
-      ],
-      _id: '5bc1f8e618a5d0400a780522',
-      name: 'Foto',
-      nodeType: 'action',
-      description: 'Description',
-      institution: { name: 'a', description: 'b' },
-      __v: 0
-    }
-  ]
-};
+import { selectDocumentById, selectSubDocumentsByDocument } from '../../../store/Documents/reducer';
+import * as DocumentActions from '../../../store/Documents/action';
 
 class Document extends React.PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -54,25 +11,52 @@ class Document extends React.PureComponent {
       title: navigation.getParam('title', 'Bir Başka Döküman')
     };
   };
+  static propTypes = {
+    document: PropTypes.shape(),
+    subDocuments: PropTypes.arrayOf(PropTypes.shape().isRequired).isRequired,
+    getDocument: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.documentId = props.navigation.getParam('id', null);
   }
+  componentDidMount() {
+    this.maybeFetchDocument();
+  }
+  componentDidUpdate() {
+    this.maybeFetchDocument();
+  }
+  maybeFetchDocument = () => {
+    const { document, getDocument } = this.props;
+    if (!document) {
+      getDocument({ id: this.documentId });
+    }
+  };
+
   render() {
-    // todo change instution after backend fixes typo
-    const { hints, name, nodeType, description, institution } = documentData.rootDocument;
+    const { document, subDocuments } = this.props;
     return (
       <DocumentView
+        loading={ !document }
         documentId={ this.documentId }
-        name={ name }
-        description={ description }
-        nodeType={ nodeType }
-        institution={ institution }
-        hints={ hints }
-        subDocuments={ documentData.documents }
+        document={ document }
+        subDocuments={ subDocuments }
       />
     );
   }
 }
 
-export default Document;
+const mapStateToProps = (state, { navigation }) => {
+  const documentId = navigation.getParam('id', null);
+  return {
+    document: selectDocumentById(state, documentId, null),
+    subDocuments: selectSubDocumentsByDocument(state, documentId)
+  };
+};
+
+const mapDispatchToProps = {
+  getDocument: DocumentActions.getDocument
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Document);

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import RootNavigator from './Navigation';
 import { store } from './store';
+import RootNavigator from './Navigation';
 
 class App extends React.PureComponent {
   render() {

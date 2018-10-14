@@ -3,7 +3,7 @@ import { selectDependencies } from '../reducer';
 
 export const dependencyReducer = (state = {}, action) => {
   const { type, fetchType, payload, request } = action;
-  if (type === Types.ACTIONS.FETCH_REQUEST) {
+  if (type === Types.ACTIONS.FETCH_SUCCESS) {
     switch (fetchType) {
       case Types.FETCHES.DOCUMENT_GET:
         return {

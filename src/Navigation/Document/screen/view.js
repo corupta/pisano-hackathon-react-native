@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -11,14 +11,12 @@ import Hints from './Hints';
 
 class DocumentView extends React.PureComponent {
   static propTypes = {
-    subDocuments: PropTypes.arrayOf(PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      nodeType: PropTypes.string.isRequired,
-      institution: PropTypes.shape().isRequired
-    }).isRequired).isRequired,
-    hints: PropTypes.array
+    loading: PropTypes.bool.isRequired,
+    documentId: PropTypes.string.isRequired,
+    document: PropTypes.shape({
+      hints: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+    }),
+    subDocuments: PropTypes.arrayOf(PropTypes.shape().isRequired).isRequired
   };
 
   renderSubDocument = ({ item, index }) => {
@@ -48,8 +46,36 @@ class DocumentView extends React.PureComponent {
     );
   };
 
+  renderDetails = () => {
+    const { document } = this.props;
+    return (
+      null
+    );
+  };
+
+  renderHints = () => {
+    const { document: { hints }, documentId } = this.props;
+    return (
+      <Hints
+        documentId={ documentId }
+        hints={ hints }
+      />
+    );
+  };
+
   render() {
-    const { hints } = this.props;
+    const { loading } = this.props;
+    if (loading) {
+      return (
+        <View
+          style={ styles.loadingContainer }
+        >
+          <ActivityIndicator
+            size={ 'large' }
+          />
+        </View>
+      );
+    }
     return (
       <KeyboardAwareScrollView
         extraScrollHeight={ 100 }
@@ -58,9 +84,8 @@ class DocumentView extends React.PureComponent {
         style={ styles.container }
       >
         { this.renderAllSubDocuments() }
-        <Hints
-          hints={ hints }
-        />
+        { this.renderDetails() }
+        { this.renderHints()}
       </KeyboardAwareScrollView>
     );
   }
@@ -69,6 +94,11 @@ class DocumentView extends React.PureComponent {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.background
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 

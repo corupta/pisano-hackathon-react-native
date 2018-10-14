@@ -1,18 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import HintsView from './view';
 
-import { delay } from '../../../../Utils';
+import * as CommentActions from '../../../../store/Comments/action';
+import { selectCommentLoading, selectCommentPostError } from '../../../../store/Comments/reducer';
 
 class Hints extends React.PureComponent {
   static propTypes = {
-    hints: PropTypes.array.isRequired
+    documentId: PropTypes.string.isRequired,
+    hints: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.string,
+    addComment: PropTypes.func.isRequired
   };
 
   state = {
-    addCommentLoading: false,
     addCommentValue: ''
+  };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.loading === true && this.props.loading === false) {
+      this.maybeClearInput();
+    }
+  }
+
+  maybeClearInput = () => {
+    const { error } = this.props;
+    const { addCommentValue } = this.state;
+    if (!error && addCommentValue) {
+      this.setState({
+        addCommentValue: ''
+      });
+    }
   };
 
   handleAddCommentValueChange = (addCommentValue) => {
@@ -21,35 +42,40 @@ class Hints extends React.PureComponent {
     });
   };
 
-  handleAddCommentRequest = async() => {
-    // todo add action to add hint (comment)
-    await delay(400);
-    this.setState({
-      addCommentLoading: false,
-      addCommentValue: ''
+  handleAddComment = () => {
+    const { addCommentValue } = this.state;
+    const { documentId, addComment } = this.props;
+    addComment({
+      id: documentId,
+      comment: addCommentValue
     });
   };
 
-  handleAddComment = () => {
-    this.setState({
-      addCommentLoading: true
-    }, this.handleAddCommentRequest);
-  };
-
   render() {
-    const { hints } = this.props;
-    const { addCommentLoading, addCommentValue } = this.state;
+    const { documentId, hints, loading, error } = this.props;
+    const { addCommentValue } = this.state;
     return (
       <HintsView
+        documentId={ documentId }
         hints={ hints }
-        addCommentLoading={ addCommentLoading }
+        addCommentError={ error }
+        addCommentLoading={ loading }
         addCommentValue={ addCommentValue }
         onAddCommentValueChange={ this.handleAddCommentValueChange }
         onAddComment={ this.handleAddComment }
-        buttonDisabled={ !addCommentValue && !addCommentLoading }
+        buttonDisabled={ !addCommentValue && !loading }
       />
     );
   }
 }
 
-export default Hints;
+const mapStateToProps = (state) => ({
+  loading: selectCommentLoading(state),
+  error: selectCommentPostError(state)
+});
+
+const mapDispatchToProps = {
+  addComment: CommentActions.add
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Hints);

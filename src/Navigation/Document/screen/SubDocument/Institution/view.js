@@ -94,7 +94,7 @@ class InstitutionView extends React.PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ee4',
+    backgroundColor: Colors.secondary,
     paddingVertical: 8,
     paddingHorizontal: 18,
     borderRadius: 24

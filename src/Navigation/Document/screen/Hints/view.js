@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { List, Card, FormLabel, FormInput, Button } from 'react-native-elements';
+import { List, Card, FormInput, FormValidationMessage, Button } from 'react-native-elements';
 import { View, StyleSheet } from 'react-native';
 
 import Hint from './Hint/index';
@@ -10,33 +10,59 @@ const strings = {
   comments: 'Yorumlar',
   addCommentTitle: 'Yorum Ekle',
   addCommentPlaceholder: 'Lütfen yorumunuzu girin.',
-  addComment: 'Ekle'
+  addComment: 'Ekle',
+  addCommentError: 'Yorum gönderilemedi, lütfen tekrar deneyiniz.'
 };
 
 class HintsView extends React.PureComponent {
   static propTypes = {
+    documentId: PropTypes.string.isRequired,
     hints: PropTypes.array.isRequired,
+    addCommentError: PropTypes.string,
     addCommentLoading: PropTypes.bool.isRequired,
-    addCommentValue: PropTypes.string.isRequired,
     buttonDisabled: PropTypes.bool.isRequired,
+    addCommentValue: PropTypes.string.isRequired,
     onAddCommentValueChange: PropTypes.func.isRequired,
     onAddComment: PropTypes.func.isRequired
   };
 
-  // todo add view for adding new hint
-
-  renderHint = (hint) => {
+  renderHint = (hint, index) => {
+    if (!hint) {
+      return null;
+    }
+    const { documentId } = this.props;
     return (
       <Hint
-        key={ hint }
+        key={ `hint-${documentId}-${index}` }
         name={ hint }
       />
     );
   };
 
+  renderErrorMessage = () => {
+    const { addCommentError } = this.props;
+    if (!addCommentError) {
+      return null;
+    }
+    return (
+      <FormValidationMessage
+        labelStyle={ styles.errorText }
+      >
+        { strings.addCommentError }
+      </FormValidationMessage>
+    );
+  };
+
   render() {
-    const { hints, addCommentLoading, addCommentValue, onAddCommentValueChange, buttonDisabled, onAddComment }
-      = this.props;
+    const {
+      hints,
+      addCommentError,
+      addCommentLoading,
+      addCommentValue,
+      onAddCommentValueChange,
+      buttonDisabled,
+      onAddComment
+    } = this.props;
     return (
       <View>
         <Card title={ strings.comments }>
@@ -50,9 +76,11 @@ class HintsView extends React.PureComponent {
           <FormInput
             placeholder={ strings.addCommentPlaceholder }
             containerStyle={ styles.input }
-            onChange={ onAddCommentValueChange }
+            onChangeText={ onAddCommentValueChange }
             value={ addCommentValue }
+            shake={ addCommentError }
           />
+          { this.renderErrorMessage() }
           <Button
             title={ strings.addComment }
             onPress={ onAddComment }
@@ -75,9 +103,13 @@ const styles = StyleSheet.create({
   input: {
   },
   button: {
-    marginTop: 16,
+    marginTop: 12,
     marginBottom: 8,
+    borderRadius: 8,
     backgroundColor: '#04f'
+  },
+  errorText: {
+    fontSize: 12
   }
 });
 

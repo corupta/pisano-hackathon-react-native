@@ -4,6 +4,8 @@ import { ListItem } from 'react-native-elements';
 
 import { StyleSheet } from 'react-native';
 
+import { Colors } from '../../../../../Utils';
+
 class HintView extends React.PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
@@ -17,13 +19,13 @@ class HintView extends React.PureComponent {
       return {
         type: 'font-awesome',
         name: 'star',
-        color: '#ed2'
+        color: Colors.secondary
       };
     }
     return {
       type: 'font-awesome',
       name: 'star-o',
-      color: '#ccb'
+      color: Colors.primary
     };
   };
 
