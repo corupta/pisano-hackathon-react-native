@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, FlatList } from 'react-native';
+import { Text, FlatList, StyleSheet } from 'react-native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
+import { Colors } from '../../../Utils';
 
 import SubDocument from './SubDocument';
 import Hints from './Hints';
@@ -12,18 +14,21 @@ class DocumentView extends React.PureComponent {
     subDocuments: PropTypes.arrayOf(PropTypes.shape({
       _id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
       nodeType: PropTypes.string.isRequired,
       institution: PropTypes.shape().isRequired
     }).isRequired).isRequired,
     hints: PropTypes.array
   };
 
-  renderSubDocument = ({ item }) => {
-    const { _id: id, name, nodeType, institution } = item;
+  renderSubDocument = ({ item, index }) => {
+    const { _id: id, name, description, nodeType, institution } = item;
     return (
       <SubDocument
         id={ id }
+        index={ index }
         name={ name }
+        description={ description }
         nodeType={ nodeType }
         institution={ institution }
       />
@@ -46,7 +51,12 @@ class DocumentView extends React.PureComponent {
   render() {
     const { hints } = this.props;
     return (
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView
+        extraScrollHeight={ 100 }
+        keyboardShouldPersistTaps={ 'handled' }
+        keyboardOpeningTime={ 0 }
+        style={ styles.container }
+      >
         { this.renderAllSubDocuments() }
         <Hints
           hints={ hints }
@@ -55,5 +65,11 @@ class DocumentView extends React.PureComponent {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.background
+  }
+});
 
 export default DocumentView;

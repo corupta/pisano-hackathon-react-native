@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { List, ListItem, SearchBar } from 'react-native-elements';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+
+import { Colors } from '../../../Utils';
 
 class SearchView extends React.PureComponent {
   static propTypes = {
@@ -32,6 +34,8 @@ class SearchView extends React.PureComponent {
         onEndEditing={ onSearch }
         showLoadingIcon={ loading }
         clearIcon={{ color: '#86939e', name: 'clear' }}
+        containerStyle={ styles.searchBarContainer }
+        inputStyle={ styles.searchBarInput }
       />
     );
   };
@@ -64,6 +68,9 @@ class SearchView extends React.PureComponent {
 
   renderResultList = () => {
     const { results } = this.props;
+    if (!results.length) {
+      return null;
+    }
     return (
       <List>
         { results.map(this.renderResult) }
@@ -75,6 +82,7 @@ class SearchView extends React.PureComponent {
     return (
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps={ 'handled' }
+        style={ styles.container }
       >
         { this.renderSearchBar() }
         { this.renderResultList() }
@@ -82,6 +90,19 @@ class SearchView extends React.PureComponent {
     );
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.background
+  },
+  searchBarContainer: {
+    backgroundColor: Colors.background,
+    paddingBottom: 2,
+    paddingHorizontal: 4
+  },
+  searchBarInput: {
+    backgroundColor: Colors.searchBar
+  }
+});
 SearchView.defaultProps = {
   results: [
     {
