@@ -25,6 +25,9 @@ class Institution extends React.PureComponent {
   render() {
     const { institution } = this.props;
     const { name, description } = institution;
+    if (!name && !description) {
+      return null;
+    }
     const { showDetails } = this.state;
     return (
       <InstitutionView

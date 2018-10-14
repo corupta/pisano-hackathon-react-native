@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import DocumentView from './view';
 import { selectDocumentById, selectSubDocumentsByDocument } from '../../../store/Documents/reducer';
 import * as DocumentActions from '../../../store/Documents/action';
+import {selectDependenciesByDocument} from '../../../store/Dependencies/reducer';
 
 class Document extends React.PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -12,6 +13,7 @@ class Document extends React.PureComponent {
     };
   };
   static propTypes = {
+    dependenciesLoaded: PropTypes.bool.isRequired,
     document: PropTypes.shape(),
     subDocuments: PropTypes.arrayOf(PropTypes.shape().isRequired).isRequired,
     getDocument: PropTypes.func.isRequired
@@ -28,8 +30,8 @@ class Document extends React.PureComponent {
     this.maybeFetchDocument();
   }
   maybeFetchDocument = () => {
-    const { document, getDocument } = this.props;
-    if (!document) {
+    const { dependenciesLoaded, getDocument } = this.props;
+    if (!dependenciesLoaded) {
       getDocument({ id: this.documentId });
     }
   };
@@ -50,6 +52,7 @@ class Document extends React.PureComponent {
 const mapStateToProps = (state, { navigation }) => {
   const documentId = navigation.getParam('id', null);
   return {
+    dependenciesLoaded: Boolean(selectDependenciesByDocument(state, documentId, null)),
     document: selectDocumentById(state, documentId, null),
     subDocuments: selectSubDocumentsByDocument(state, documentId)
   };

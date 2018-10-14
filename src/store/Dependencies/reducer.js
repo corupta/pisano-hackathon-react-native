@@ -16,4 +16,5 @@ export const dependencyReducer = (state = {}, action) => {
   return state;
 };
 
-export const selectDependenciesByDocument = (state, documentId) => selectDependencies(state)[documentId] || [];
+export const selectDependenciesByDocument = (state, documentId, defaultValue = []) =>
+  selectDependencies(state)[documentId] || defaultValue;
