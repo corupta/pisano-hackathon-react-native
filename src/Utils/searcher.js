@@ -1,8 +1,5 @@
 import Fuse from 'fuse.js';
 import diacritics from 'diacritics';
-import { delay } from './delay';
-
-const searchFakeDelayDuration = 200;
 
 const optionCreator = (keys) => ({
   id: 'index',
@@ -35,9 +32,17 @@ class Searcher {
   constructor(keys = [], list = []) {
     this.keys = keys;
     this.updateList(list);
+    this.lastSearch = {
+      param: null,
+      results: []
+    };
   }
   _initialize = () => {
     this.searcher = new Fuse(this.searchList, optionCreator(this.keys));
+    this.lastSearch = {
+      param: null,
+      results: []
+    };
   };
 
   updateList = (list) => {
@@ -50,12 +55,17 @@ class Searcher {
     this._initialize();
   };
 
-  search = async(param) => {
-    const searchString = diacritics.remove(param);
-    // add fake delay
-    await delay(searchFakeDelayDuration);
-    const results = this.searcher.search(searchString);
-    return results.map((index) => this.originalList[index]);
+  search = ({ param }) => {
+    if (param !== this.lastSearch.param) {
+      const searchString = diacritics.remove(param);
+      let results = this.searcher.search(searchString);
+      results = results.map((index) => this.originalList[index]);
+      this.lastSearch = {
+        param,
+        results
+      };
+    }
+    return this.lastSearch.results;
   }
 }
 
