@@ -17,10 +17,7 @@ export const documentReducer = (state = {}, action) => {
       case Types.FETCHES.COMMENT_ADD:
         return {
           ...state,
-          [payload.documentId]: {
-            ...state[payload.documentId],
-            hints: [...state[payload.documentId].hints, payload.hint]
-          }
+          [payload._id]: payload
         };
     }
   }

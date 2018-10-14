@@ -21,6 +21,7 @@ class SubDocumentView extends React.PureComponent {
       description: PropTypes.string.isRequired
     }),
     showDetails: PropTypes.bool.isRequired,
+    dontRenderChevron: PropTypes.bool.isRequired,
     onToggleShowDetails: PropTypes.func.isRequired,
     onNavigateToDocument: PropTypes.func.isRequired
   };
@@ -53,8 +54,29 @@ class SubDocumentView extends React.PureComponent {
         );
     }
   };
+
+  renderRightIcon = () => {
+    const { dontRenderChevron, onNavigateToDocument } = this.props;
+    if (dontRenderChevron) {
+      return (
+        <Icon
+          type={ 'entypo' }
+          name={ 'paper-plane' }
+          color={ Colors.primary }
+        />
+      );
+    }
+    return (
+      <Icon
+        type={ 'entypo' }
+        name={ 'chevron-right' }
+        color={ Colors.chevron }
+        onPress={ onNavigateToDocument }
+      />
+    );
+  };
   renderHeader = () => {
-    const { prefix, name, onToggleShowDetails, onNavigateToDocument } = this.props;
+    const { prefix, name, onToggleShowDetails } = this.props;
     return (
       <TouchableOpacity
         onPress={ onToggleShowDetails }
@@ -65,12 +87,7 @@ class SubDocumentView extends React.PureComponent {
           { prefix }
           { name }
         </Text>
-        <Icon
-          type={ 'entypo' }
-          name={ 'chevron-right' }
-          color={ Colors.chevron }
-          onPress={ onNavigateToDocument }
-        />
+        { this.renderRightIcon()}
       </TouchableOpacity>
     );
   };

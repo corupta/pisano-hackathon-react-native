@@ -8,7 +8,7 @@ export const dependencyReducer = (state = {}, action) => {
       case Types.FETCHES.DOCUMENT_GET:
         return {
           ...state,
-          [request.id]: payload.map(({ _id }) => _id).slice(1)
+          [request.id]: payload.map(({ _id }) => _id)
           // first result is the document itself, thus, slice it away
         };
     }

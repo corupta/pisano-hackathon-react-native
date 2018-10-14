@@ -7,6 +7,7 @@ import SubDocumentView from './view';
 class SubDocument extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
+    parentId: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
@@ -25,16 +26,18 @@ class SubDocument extends React.PureComponent {
   };
 
   handleNavigateToDocument = () => {
-    const { id, name, navigation } = this.props;
-    navigation.push('Document', {
-      title: name,
-      id
-    });
+    const { id, parentId, name, navigation } = this.props;
+    if (id !== parentId) {
+      navigation.push('Document', {
+        title: name,
+        id
+      });
+    }
   };
 
 
   render() {
-    const { index, name, description, nodeType, institution } = this.props;
+    const { id, parentId, index, name, description, nodeType, institution } = this.props;
     const { showDetails } = this.state;
     return (
       <SubDocumentView
@@ -44,6 +47,7 @@ class SubDocument extends React.PureComponent {
         nodeType={ nodeType }
         institution={ institution }
         showDetails={ showDetails }
+        dontRenderChevron={ id === parentId }
         onToggleShowDetails={ this.handleToggleShowDetails }
         onNavigateToDocument={ this.handleNavigateToDocument }
       />

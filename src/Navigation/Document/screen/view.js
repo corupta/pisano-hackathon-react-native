@@ -20,10 +20,12 @@ class DocumentView extends React.PureComponent {
   };
 
   renderSubDocument = ({ item, index }) => {
+    const { documentId } = this.props;
     const { _id: id, name, description, nodeType, institution } = item;
     return (
       <SubDocument
         id={ id }
+        parentId={ documentId }
         index={ index }
         name={ name }
         description={ description }
