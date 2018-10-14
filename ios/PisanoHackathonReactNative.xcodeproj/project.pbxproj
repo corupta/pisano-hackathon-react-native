@@ -40,6 +40,7 @@
 		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		31001CC16F8148F8BCF8F306 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52E6FCD24D8C46D0BDE611F2 /* FontAwesome5_Solid.ttf */; };
 		5B1BCBC12173514800C6FC87 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B1BCBC02173514800C6FC87 /* Images-2.xcassets */; };
+		5B1BCC5F21735E3700C6FC87 /* squareBig.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1BCC3721735E3700C6FC87 /* squareBig.png */; };
 		65D73B4D64F24A4685E7744D /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D6E36458E1E43CBAD77C066 /* Octicons.ttf */; };
 		66CECCF5BB594AFA9454CC33 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE7E33B1A8584935BBB99161 /* Zocial.ttf */; };
 		6AB832ACE533420F8D1163C8 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1DF47DFE4FA479BAEDB24B8 /* MaterialIcons.ttf */; };
@@ -377,6 +378,7 @@
 		44EF8EFCB96E4B408D5B347A /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		52E6FCD24D8C46D0BDE611F2 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		5B1BCBC02173514800C6FC87 /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-2.xcassets"; path = "PisanoHackathonReactNative/Images-2.xcassets"; sourceTree = "<group>"; };
+		5B1BCC3721735E3700C6FC87 /* squareBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = squareBig.png; path = ../img/squareBig.png; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		60C1B1730BBE4862A0EA48E8 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		621BF143CE3448B682AB385F /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
@@ -580,6 +582,7 @@
 		4C165CA8D75A4612A921548A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5B1BCC3721735E3700C6FC87 /* squareBig.png */,
 				6BA3A65658524FE895ADD522 /* AntDesign.ttf */,
 				E740BE5EF22B47408289A08E /* Entypo.ttf */,
 				891543B56B27407EA146DB8B /* EvilIcons.ttf */,
@@ -786,14 +789,20 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = K8TB2GFD29;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = K8TB2GFD29;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = K8TB2GFD29;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E48F1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = K8TB2GFD29;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
@@ -1165,6 +1174,7 @@
 				5B1BCBC12173514800C6FC87 /* Images-2.xcassets in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				5B1BCC5F21735E3700C6FC87 /* squareBig.png in Resources */,
 				83B4AE2B7786463B96F770AF /* AntDesign.ttf in Resources */,
 				17523B75BB97427FA2F5150B /* Entypo.ttf in Resources */,
 				9140DB0DF81144FC9305A42A /* EvilIcons.ttf in Resources */,
@@ -1565,6 +1575,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = K8TB2GFD29;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1618,6 +1629,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = K8TB2GFD29;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
