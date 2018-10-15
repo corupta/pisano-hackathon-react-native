@@ -2,10 +2,14 @@
 
 This is an app, made in a 27 hour hackathon.
 
+You can check out:
+* (Our Presentation)[https://docs.google.com/presentation/d/12jedio3jkONxd0SVQH2fkvceobrEd5LDO46W8LcFN-k/edit?usp=sharing]
+* (Video of Our Frontend)[https://drive.google.com/file/d/1ck1zcx2NM2Tnh3YjFEoO1MJELQpyq1n9/view?usp=sharing]
+* (Video of Our App)[https://drive.google.com/file/d/1lqmaA6zRynlv9Yb8g6lelesEL6HoKPXS/view?usp=sharing]
 
 ## Pisano Hackathon
-*Details of the hackathon can be found in [Pisano Hackathon Website](https://hackathon.pisano.co/)
-*If that link is broken or changed check it out from [Archive.is backup of Pisano Hackathon Website](http://archive.is/oVGiI)
+* Details of the hackathon can be found in [Pisano Hackathon Website](https://hackathon.pisano.co/)
+* If that link is broken or changed check it out from [Archive.is backup of Pisano Hackathon Website](http://archive.is/oVGiI)
 
 ## Our Team
 4 developers:
