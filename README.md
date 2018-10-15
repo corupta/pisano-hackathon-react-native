@@ -1,4 +1,4 @@
-# Evrak İşim (My Document Job) Project (Pisano Hackathon - Team ExbiByte)
+# Evrak İşim (My Document Work) Project (Pisano Hackathon - Team ExbiByte)
 
 This is an app, made in a 27 hour hackathon.
 
